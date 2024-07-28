@@ -34,8 +34,14 @@
           <li><a href="#service">service</a> </li>
           <li><a href="#contact">contact</a> </li>
           <!-- <li> <i class="fa fa-search"></i> </li> -->
- 
-          <button class="primary-btn">BOOK NOW</button></a>
+           @if (Auth::check())
+           <a href="">
+              <button class="primary-btn">LOGOUT</button></a>
+            @else
+            <a href="{{ route('login') }}">
+              <button class="primary-btn">LOGIN</button></a>
+           @endif
+          
         </ul>
         <span class="fa fa-bars" onclick="menutoggle()"></span>
       </div>
@@ -67,7 +73,8 @@
             <p>Lorem ipsum dolor sit amet constur adipisicing elit sed do eiusmtem por incid.
             </p>
             <div class="flex">
-              <button class="primary-btn">READ MORE</button>
+              <a href="{{ route('homeReg') }}">
+              <button href="{{route('homeReg')}}" class="primary-btn">BOOK NOW</button> </a>
               <button class="secondary-btn">CONTACT US</button>
             </div>
           </div>
@@ -79,7 +86,7 @@
             <p>Lorem ipsum dolor sit amet constur adipisicing elit sed do eiusmtem por incid.
             </p>
             <div class="flex">
-              <button class="primary-btn">READ MORE</button>
+              <button class="primary-btn">BOOK NOW</button>
               <button class="secondary-btn">CONTACT US</button>
             </div>
           </div>
@@ -91,7 +98,7 @@
             <p>Lorem ipsum dolor sit amet constur adipisicing elit sed do eiusmtem por incid.
             </p>
             <div class="flex">
-              <button class="primary-btn">READ MORE</button>
+              <button class="primary-btn">BOOK NOW</button>
               <button class="secondary-btn">CONTACT US</button>
             </div>
           </div>
@@ -139,7 +146,7 @@
           <input type="date" placeholder="Departure Date">
           <input type="number" placeholder="Adults">
           <input type="number" placeholder="Childern">
-          <input type="submit" value="CHECK AVAILABILITY">
+          <button class="primary-btn">CHECK ROOM</button></a>
         </form>
       </div>
     </div>
@@ -203,7 +210,7 @@
         <div class="owl-carousel owl-carousel1 owl-theme">
         <div class="items">
             <div class="image">
-            <a href="#"><img src="{{ asset('images/kamar/twin.jpg') }}" alt=""></a>
+            <img src="{{ asset('images/kamar/twin.jpg') }}" alt="">
             </div>
             <div class="text">
               <h2>Twin Room</h2>
@@ -216,7 +223,7 @@
               <p>Kamar Twin kami didesain secara elegan dengan perabotan modern buatan tangan. Dengan luas kamar 25-27 meter persegi, kamar ini menyediakan fasilitas lengkap di dalam kamar, seperti Tempat Tidur 2 bed,  TV LED 42 inci, kopi/teh di dalam kamar, Water Heater dan lain-lain. Kamar ini cocok untuk kebutuhan tamu yang sedang berlibur maupun yang sedang melakukan bisnis.
               </p>
               <div class="button flex">
-              <a href="#">
+              <a href="{{ route('booking') }}">
                 <button class="primary-btn">Pesan</button></a>
                 <h3>Rp. 280000<span> <br> Per Malam </span> </h3>
               </div>
@@ -293,7 +300,8 @@
               </p>
               <div class="button flex">
        
-                <button class="primary-btn">Pesan</button></a>
+              <a href="{{ route('booking') }}">
+              <button class="primary-btn">Pesan</button></a>
                 <h3>Rp. 280000<span> <br> Per Malam </span> </h3>
               </div>
             </div>
@@ -543,7 +551,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section>  -->
 
 
   <section class="newsletter mtop">
@@ -552,8 +560,7 @@
       <input type="text" placeholder="Your Email">
       <input type="text" value="Subscribe">
     </div>
-  </section> -->
-
+  </section>
 
   <footer>
     <div class="container grid">
