@@ -87,7 +87,7 @@
                                                 <form action="" method="post">
                                                     <div class="single-form-part">
                                                         <div class="date-to mb-20">
-                                                            <input id="txtCheckin" value="Arrive date" name="tgl_in">
+                                                            <input id="txtCheckin" value="Arrive date" readonly name="tgl_in">
                                                             <i class="mdi mdi-calendar-text"></i>
                                                         </div>
                                                         <div class="select-option">

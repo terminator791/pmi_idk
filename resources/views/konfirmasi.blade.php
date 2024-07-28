@@ -78,7 +78,7 @@
                                 <div role="tabpanel" class="tab-pane active" id="done">
                                     <div class="booking-done">
                                         <div class="booking-done-table table-responsive text-center" style="width: 100%;">
-                                            <div class="text-right"><a href="" class="btn btn-primary">Kembali ke Beranda</a></div><br><br>
+                                            <div class="text-right"><a href="{{ route('homeReg')}}" class="btn btn-primary">Kembali ke Beranda</a></div><br><br>
                                             <table class="table">
                                                 <tr>
                                                     <td><p>2 Kamar <span>15-Jul-2021 - 15-Jul-2021</span></p></td>
@@ -107,6 +107,13 @@
                                     <div class="payment-info">
                                         <h1>Status Pemesanan Anda</h1>
                                         <h3>"Pending"</h3>
+                                    </div>        
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane" id="tiket">
+                                    <div class="payment-info">
+                                        <h1>TIKET</h1>
+                                        <h3>DISINI</h3>
                                     </div>        
                                 </div>
                             </div>
