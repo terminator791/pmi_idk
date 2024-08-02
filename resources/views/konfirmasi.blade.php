@@ -43,6 +43,36 @@
         });
 
     </script>
+
+<style>
+        .table {
+            border-collapse: separate;
+            border-spacing: 0 15px;
+            width: 100%;
+        }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 15px;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn-primary {
+            margin-bottom: 15px;
+        }
+    </style>
 </head>  
 <body>
     <div class="wrapper">
@@ -81,23 +111,24 @@
                                             <div class="text-right"><a href="{{ route('homeReg')}}" class="btn btn-primary">Kembali ke Beranda</a></div><br><br>
                                             <table class="table">
                                                 <tr>
-                                                    <td><p>2 Kamar <span>15-Jul-2021 - 15-Jul-2021</span></p></td>
-                                                    <td><p>iqbal<span></span></p></td>
-                                                    <td><p>iqbal@mail.com <span></span></p></td>
-                                                    <td><p>1</p></td>
+                                                    <td><p>Tanggal <span>{{ $booking['start_date'] }} - {{ $booking['end_date'] }}</span></p></td>
+                                                    <td><p> Nama <span></span></p></td>
+                                                    <td><p>Email<span></span></p></td>
+                                                    <td><p>Harga</p></td>
                                                 </tr>
-                                                <tr class="row2">
-                                                    <td><p>Twin Room</p></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    
-                                                    <td><p>1900000</p></td>
-                                                </tr>
+                                               
+                                                    <tr class="row2">
+                                                        <td><p>Twin Room <span>Jumlah : 2</span></p></td>
+                                                        <td><p>{{ $booking['user']['name'] }}</p></td>
+                                                        <td><p>{{ $booking['user_email'] }}<span></span></p></td>
+                                                        <td><p>{{ (int) $booking['room']['room_type']['price'] }}</p></td>
+                                                    </tr>
+                                                
                                                 <tr class="row3">
                                                     <td><p>Total</p></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td><p>3400000</p></td>
+                                                    <td><p> {{ (int)$booking['total_price'] }}</p></td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -106,7 +137,7 @@
                                 <div role="tabpanel" class="tab-pane" id="payment">
                                     <div class="payment-info">
                                         <h1>Status Pemesanan Anda</h1>
-                                        <h3>"Pending"</h3>
+                                        <h3>"Menunggu Pembayaran...."</h3>
                                     </div>        
                                 </div>
 

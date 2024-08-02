@@ -21,7 +21,7 @@
         $(document).ready(function () {
             $("#txtCheckin").datepicker({
                 minDate: 0,
-                dateFormat: "dd-M-yy",
+                dateFormat: "yy-mm-dd",
                 onSelect: function (date) {
                     var date2 = $('#txtCheckin').datepicker('getDate');
                     date2.setDate(date2.getDate());
@@ -31,7 +31,7 @@
             });
             $('#txtCheckout').datepicker({
                 minDate: 0,
-                dateFormat: "dd-M-yy",
+                dateFormat: "yy-mm-dd",
                 onClose: function () {
                     var dt1 = $('#txtCheckin').datepicker('getDate');
                     var dt2 = $('#txtCheckout').datepicker('getDate');
@@ -43,6 +43,7 @@
             });
         });
     </script>
+
 </head>  
 <body>
     <div class="wrapper">
@@ -69,29 +70,28 @@
                                     <div class="booking-info-deatils">
                                         <div class="single-room-details fix">
                                             <div class="room-img">
-                                                <img src="{{ asset('images/kamar/twin.jpg') }}" alt="Twin Room">
+                                                <img src="{{ asset($room['room_images'][0]) }}" alt="Twin Room"> 
                                             </div>
                                             <div class="single-room-details pl-50">
-                                                <h3 class="s_room_title">Twin Room</h3>
+                                                <h3 class="s_room_title">{{ $room['room_data']['room_type'] }}</h3>
                                                 <div class="room_price"><br>
                                                     <h4>Harga</h4><br>
-                                                    <h5>Rp. 280000<span>/ malam</span></h5>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                                    quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                                    <h5>Rp. {{ (int) $room['room_data']['price'] }}<span>/ malam</span></h5>
+                                                    <p>{{ $room['room_data']['description'] }}</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="single-room-booking-form mt-60">
                                             <div class="booking_form_inner">
-                                                <form action="" method="post">
+                                                <form action="{{ route('bookings.store') }}" method="post">
+                                                    @csrf
                                                     <div class="single-form-part">
                                                         <div class="date-to mb-20">
-                                                            <input id="txtCheckin" value="Arrive date" readonly name="tgl_in">
+                                                            <input id="txtCheckin" name="start_date" placeholder="Arrive date" readonly>
                                                             <i class="mdi mdi-calendar-text"></i>
                                                         </div>
                                                         <div class="select-option">
-                                                            <select name="jumlah">
+                                                            <select name="amount">
                                                                 <option selected>Jumlah Kamar</option>
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
@@ -100,14 +100,18 @@
                                                     </div>
                                                     <div class="single-form-part">
                                                         <div class="date-to mb-20">
-                                                            <input id="txtCheckout" value="Departure Date" name="tgl_out">
+                                                            <input id="txtCheckout" name="end_date" placeholder="Departure Date" readonly>
                                                             <i class="mdi mdi-calendar-text"></i>
                                                         </div>
                                                         <div class="select-option">
-                                                            <input type="text" readonly name="jenis" value="Twin Room">
+                                                            <!-- Hidden input to send the room_type_id -->
+                                                            <input type="hidden" name="room_type_id" value="{{ $room['room_data']['id'] }}">
+
+                                                            <!-- Display the room_type to the user -->
+                                                            <input type="text" readonly value="{{ $room['room_data']['room_type'] }}">
                                                         </div>
                                                     </div>
-                                                </form>
+                                              
                                             </div>
                                         </div>
                                     </div>
@@ -115,30 +119,17 @@
                                 <div role="tabpanel" class="tab-pane" id="personal">
                                     <div class="personal-info-details">
                                         <div class="booking-info-inner">
-                                            <form action="" method="post">
-
+                                            
                                                 <div class="booking-form-list">
-                                                    
                                                     <div class="single-form-part">
-                                                        <div class="name mb-15">
-                                                        </div>
-                                                            <input type="text" placeholder="Nama Lengkap" value="iqbal" readonly name="nama">
-                                                        </div>
+                                                        <input type="text" placeholder="Nama Lengkap" value="{{ Auth::user()->name }}" name="name">
                                                     </div>
-
                                                     <div class="single-form-part">
-                                                        <div class="mail mb-15">
-                                                            <input type="text" placeholder="Email" value="iqbal@mail.com" readonly name="email">
-                                                            <i class="mdi mdi-calendar-text"></i>
-                                                        </div>
+                                                        <input type="text" placeholder="Email" value="{{ Auth::user()->email }}" readonly name="email">
                                                     </div>
-
                                                     <div class="single-form-part">
-                                                        <div class="name mb-15">
-                                                            <input type="tel" placeholder="No Telp." value="0892131312" readonly name="no">
-                                                        </div>
+                                                        <input type="tel" placeholder="No Telp." value="{{ Auth::user()->phone }}" name="phone">
                                                     </div>
-
                                                 </div>
                                                 <div class="prve-next-box mt-20">
                                                     <div class="back-link">

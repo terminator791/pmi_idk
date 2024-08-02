@@ -76,7 +76,7 @@
                                             <nav>
                                                 <ul style="text-align: right;">
                                                     <li><a href="#">Home</a></li>
-                                                    <li><a href="{{ Route('booking')}}">Your Bookings</a></li>
+                                                    <!-- <li><a href="{{ Route('booking')}}">Your Bookings</a></li> -->
                                                     <li><a href="{{ Route('konfirmasi')}}">Konfirmasi Pemesanan</a></li>
                                                     <li><a href="#">Logout</a></li>
                                                 </ul>

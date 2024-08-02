@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  
 </head>
 
 <body>
@@ -23,7 +24,7 @@
   <header>
     <div class="content flex_space">
       <div class="logo">
-        <img src="{{ asset('assets_reservasi/hotel/Images/logodiklat.jpg')}}" alt="">
+        <img src="{{ asset('assets_reservasi/hotel/Images/logodiklat2.jpg')}}" alt="">
       </div>
       <div class="navlinks">
         <ul id="menulist">
@@ -34,14 +35,18 @@
           <li><a href="#service">service</a> </li>
           <li><a href="#contact">contact</a> </li>
           <!-- <li> <i class="fa fa-search"></i> </li> -->
-           @if (Auth::check())
-           <a href="">
-              <button class="primary-btn">LOGOUT</button></a>
-            @else
-            <a href="{{ route('login') }}">
-              <button class="primary-btn">LOGIN</button></a>
-           @endif
-          
+          @if(session()->has('access_token'))
+          <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="primary-btn">LOGOUT</button>
+</form>
+
+@else
+    <a href="{{ route('login') }}">
+        <button class="primary-btn">LOGIN</button>
+    </a>
+@endif
+
         </ul>
         <span class="fa fa-bars" onclick="menutoggle()"></span>
       </div>
@@ -208,27 +213,34 @@
       </div>
       <div class="content mtop">
         <div class="owl-carousel owl-carousel1 owl-theme">
-        <div class="items">
+          @foreach ($roomTypes as $room )
+
+          <div class="items">
             <div class="image">
-            <img src="{{ asset('images/kamar/twin.jpg') }}" alt="">
+            <img src="{{ asset( $room['image'] ) }}" alt="">
             </div>
             <div class="text">
-              <h2>Twin Room</h2>
+              <h2>{{ $room['room_type'] }}</h2>
               <div class="rate flex">
                 <i class="fa fa-wifi"></i>
                 <i class="fa fa-television"></i>
                 <i class="fa fa-cutlery"></i>
                
               </div>
-              <p>Kamar Twin kami didesain secara elegan dengan perabotan modern buatan tangan. Dengan luas kamar 25-27 meter persegi, kamar ini menyediakan fasilitas lengkap di dalam kamar, seperti Tempat Tidur 2 bed,  TV LED 42 inci, kopi/teh di dalam kamar, Water Heater dan lain-lain. Kamar ini cocok untuk kebutuhan tamu yang sedang berlibur maupun yang sedang melakukan bisnis.
-              </p>
+              <p>{{ $room['description'] }}</p>
               <div class="button flex">
-              <a href="{{ route('booking') }}">
-                <button class="primary-btn">Pesan</button></a>
-                <h3>Rp. 280000<span> <br> Per Malam </span> </h3>
+                
+                <a href="{{ route('room.details', ['id' => $room['id']]) }}">
+                  <button class="primary-btn">Pesan</button>
+                </a>
+
+                <h3>Rp.{{ (int) $room['price'] }}<span> <br> Per Malam </span> </h3>
+
               </div>
             </div>
           </div>
+          
+          @endforeach
          
         </div>
       </div>
@@ -554,13 +566,13 @@
   </section>  -->
 
 
-  <section class="newsletter mtop">
+  <!-- <section class="newsletter mtop">
     <div class="container flex_space">
       <h1>Subscribe to Our Newsletter</h1>
       <input type="text" placeholder="Your Email">
       <input type="text" value="Subscribe">
     </div>
-  </section>
+  </section> -->
 
   <footer>
     <div class="container grid">

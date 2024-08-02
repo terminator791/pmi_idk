@@ -12,6 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware->alias([
+            'HandleExpiredToken' => \App\Http\Middleware\HandleExpiredToken::class,
+            'AuthLoginCheck' => \app\Http\Middleware\AuthLoginCheck::class, 
+            'RefreshToken' => \app\Http\Middleware\RefreshToken::class, 
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
