@@ -11,9 +11,9 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="assets_auth/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
-
     <div class="main">
 
         <!-- Sign up form -->
@@ -70,5 +70,28 @@
     <!-- JS -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/main.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    @if ($errors->any())
+    <script>
+        Toastify({
+            text: {!! json_encode($errors->all()) !!},
+            duration: 2000,
+            position: 'right',
+            backgroundColor: 'red'
+        }).showToast();
+    </script>
+    @endif
+
+    @if (session('message'))
+        <script>
+            Toastify({
+                text: "{{ session('message') }}",
+                duration: 2000,
+                position: 'right',
+                backgroundColor: 'green'
+            }).showToast();
+        </script>
+    @endif 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

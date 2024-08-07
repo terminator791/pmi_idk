@@ -27,30 +27,20 @@ class AuthLoginCheck
 
         if (!$response) {
             try {
-                $response = Http::withToken($token)->post('http://127.0.0.1:8000/api/me');
+                $apiResponse = Http::withToken($token)->get('http://127.0.0.1:8000/api/v1/me');
 
-                // Store the response in session
-                Session::put('response', $response->json());
-
-                if($response->status() == 401) {
-                        $response =  Http::withToken($token)->post('http://127.0.0.1:8000/api/refresh');
-                        $token = $response->json()['access_token'];
-
-                        Session::put('access_token', $token);
-
-                        return $next($request);
-
-                }else{
-
+                if ($apiResponse->successful()) {
+                    // Store the response in session
+                    Session::put('response', $apiResponse->json());
+                } else {
                     return redirect()->route('login')->withErrors(['error' => 'Silahkan Login Terlebih dahulu']);
                 }
 
             } catch (\Throwable $th) {
-                    return redirect()->route('login')->withErrors(['error' => 'Silahkan Login Terlebih dahulu']);
+                return redirect()->route('login')->withErrors(['error' => 'Silahkan Login Terlebih dahulu']);
             }
-        }else{
-            return $next($request);
         }
-        
+
+        return $next($request);
     }
 }

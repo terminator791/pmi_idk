@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('assets_reservasi/css/shortcode/shortcodes.css') }}">
     <link rel="stylesheet" href="{{ asset('assets_reservasi/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets_reservasi/css/responsive.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
     <link rel="icon" href="{{ asset('images/logo.png') }}">
     <script src="{{ asset('assets_reservasi/js/vendor/modernizr-2.8.3.min.js') }}"></script>
@@ -45,6 +46,7 @@
 </head>
 
 <body>
+
     <div class="preloader">
         <div class="loading-center">
             <div class="loading-center-absolute">
@@ -75,10 +77,14 @@
                                         <div class="menu-list hidden-sm hidden-xs">
                                             <nav>
                                                 <ul style="text-align: right;">
-                                                    <li><a href="#">Home</a></li>
+                                                    <li><a href="{{ Route('home')}}">Home</a></li>
                                                     <!-- <li><a href="{{ Route('booking')}}">Your Bookings</a></li> -->
+                                        
                                                     <li><a href="{{ Route('konfirmasi')}}">Konfirmasi Pemesanan</a></li>
+                                                    <!-- <form method="POST" action="{{ route('logout') }}">
+                                                    @csrf
                                                     <li><a href="#">Logout</a></li>
+                                                    </form> -->
                                                 </ul>
                                             </nav>
                                         </div>
@@ -182,163 +188,29 @@
                 <div class="our-room-show">
                     <div class="row">
                         <div class="carousel-list">
+                            @foreach ($meetingRooms as $meetingRoom )
                             <div class="col-md-4">
                                 <div class="single-room">
                                     <div class="room-img">
-                                        <a href="#"><img src="{{ asset('images/kamar/hall2.jpg') }}" alt=""></a>
+                                        <a href="#"><img src="{{ asset( $meetingRoom['image'] ) }}" alt=""></a>
                                     </div>
                                     <div class="room-desc">
                                         <div class="room-name">
-                                            <h3><a href="#">Midle Meeting Room</a></h3>
+                                            <h3><a href="#">{{ str_replace('_', ' ', $meetingRoom['room_type']) }}</a></h3>
                                         </div>
                                         <div class="room-rent">
-                                            <h6>Rp. 280000 / <label>Malam</label></h6>
+                                            <h6>Rp.{{ (int) $meetingRoom['price'] }} / <label>Malam</label></h6>
                                         </div>
                                         <div class="room-book">
-                                            <a href="{{ route('booking') }}">Pesan</a>
+                                            <a href="{{ route('room.details', ['id' => $meetingRoom['id']]) }}">
+                                                Pesan
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <div class="single-room">
-                                    <div class="room-img">
-                                        <a href="#"><img src="{{ asset('images/kamar/hall2.jpg') }}" alt=""></a>
-                                    </div>
-                                    <div class="room-desc">
-                                        <div class="room-name">
-                                            <h3><a href="#">Midle Meeting Room</a></h3>
-                                        </div>
-                                        <div class="room-rent">
-                                            <h6>Rp. 280000 / <label>Malam</label></h6>
-                                        </div>
-                                        <div class="room-book">
-                                            <a href="{{ route('booking') }}">Pesan</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <div class="single-room">
-                                    <div class="room-img">
-                                        <a href="#"><img src="{{ asset('images/kamar/hall2.jpg') }}" alt=""></a>
-                                    </div>
-                                    <div class="room-desc">
-                                        <div class="room-name">
-                                            <h3><a>Midle Meeting Room</a></h3>
-                                        </div>
-                                        <div class="room-rent">
-                                            <h6>Rp. 280000 / <label>Malam</label></h6>
-                                        </div>
-                                        <div class="room-book">
-                                            <a href="{{ route('booking') }}">Pesan</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <div class="single-room">
-                                    <div class="room-img">
-                                        <a href="#"><img src="{{ asset('images/kamar/hall2.jpg') }}" alt=""></a>
-                                    </div>
-                                    <div class="room-desc">
-                                        <div class="room-name">
-                                            <h3><a href="#">Midle Meeting Room</a></h3>
-                                        </div>
-                                        <div class="room-rent">
-                                            <h6>Rp. 280000 / <label>Malam</label></h6>
-                                        </div>
-                                        <div class="room-book">
-                                            <a href="{{ route('booking') }}">Pesan</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <div class="single-room">
-                                    <div class="room-img">
-                                        <a href="#"><img src="{{ asset('images/kamar/hall2.jpg') }}" alt=""></a>
-                                    </div>
-                                    <div class="room-desc">
-                                        <div class="room-name">
-                                            <h3><a href="#">Midle Meeting Room</a></h3>
-                                        </div>
-                                        <div class="room-rent">
-                                            <h6>Rp. 280000 / <label>Malam</label></h6>
-                                        </div>
-                                        <div class="room-book">
-                                            <a href="{{ route('booking') }}">Pesan</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <div class="single-room">
-                                    <div class="room-img">
-                                        <a href="#"><img src="{{ asset('images/kamar/hall2.jpg') }}" alt=""></a>
-                                    </div>
-                                    <div class="room-desc">
-                                        <div class="room-name">
-                                            <h3><a href="#">Midle Meeting Room</a></h3>
-                                        </div>
-                                        <div class="room-rent">
-                                            <h6>Rp. 280000 / <label>Malam</label></h6>
-                                        </div>
-                                        <div class="room-book">
-                                            <a href="{{ route('booking') }}">Pesan</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <div class="single-room">
-                                    <div class="room-img">
-                                        <a href="#"><img src="{{ asset('images/kamar/hall2.jpg') }}" alt=""></a>
-                                    </div>
-                                    <div class="room-desc">
-                                        <div class="room-name">
-                                            <h3><a href="#">Midle Meeting Room</a></h3>
-                                        </div>
-                                        <div class="room-rent">
-                                            <h6>Rp. 280000 / <label>Malam</label></h6>
-                                        </div>
-                                        <div class="room-book">
-                                            <a href="{{ route('booking') }}">Pesan</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <div class="single-room">
-                                    <div class="room-img">
-                                        <a href="#"><img src="{{ asset('images/kamar/hall2.jpg') }}" alt=""></a>
-                                    </div>
-                                    <div class="room-desc">
-                                        <div class="room-name">
-                                            <h3><a href="#">Midle Meeting Room</a></h3>
-                                        </div>
-                                        <div class="room-rent">
-                                            <h6>Rp. 280000 / <label>Malam</label></h6>
-                                        </div>
-                                        <div class="room-book">
-                                            <a href="{{ route('booking') }}">Pesan</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                             <!-- Add more room entries here as needed -->
                         </div>
                     </div>
@@ -360,31 +232,29 @@
                 <div class="our-room-show">
                     <div class="row">
                         <div class="carousel-list">
+                            @foreach ($rooms as $room )
                             <div class="col-md-4">
                                 <div class="single-room">
                                     <div class="room-img">
-                                        <a ><img src="{{ asset('images/kamar/twin.jpg') }}" alt=""></a>
+                                        <a ><img src="{{ asset( $room['image'] ) }}" alt=""></a>
                                     </div>
                                     <div class="room-desc">
                                         <div class="room-name">
-                                            <h3><a href="#">Twin Room</a></h3>
+                                            <h3>{{ str_replace('_', ' ', $room['room_type']) }}</></h3>
                                         </div>
                                         <div class="room-rent">
-                                            <h6>Rp 190000 / <label>Malam</label></h6>
+                                            <h6>Rp.{{ (int) $room['price'] }} / <label>Malam</label></h6>
                                         </div>
                                         <div class="room-book">
-                                            <a href="{{ route('booking') }}">Pesan</a>
+                                            <a href="{{ route('room.details', ['id' => $room['id']]) }}">
+                                                Pesan
+                                            </a>
                                         </div>
                                     </div>
-
-                                    
                                 </div>
-                                
-
-                                
-
-                                
                             </div>
+
+                            @endforeach
                             <!-- Add more room entries here as needed -->
                         </div>
                         
@@ -435,6 +305,8 @@
         <!-- Footer end -->
     </div>
 
+    
+
     <!-- Placed js at the end of the document so the pages load faster -->
     <script src="{{ asset('assets_reservasi/js/vendor/jquery-1.12.0.min.js') }}"></script>
     <script src="{{ asset('assets_reservasi/js/waypoints.min.js') }}"></script>
@@ -452,6 +324,29 @@
     <script src="{{ asset('assets_reservasi/js/jquery.magnific-popup.js') }}"></script>
     <script src="{{ asset('assets_reservasi/js/plugins.js') }}"></script>
     <script src="{{ asset('assets_reservasi/js/main.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    @if ($errors->any())
+    <script>
+        Toastify({
+            text: {!! json_encode($errors->all()) !!},
+            duration: 2000,
+            position: 'right',
+            backgroundColor: 'red'
+        }).showToast();
+    </script>
+    @endif
+
+    @if (session('message'))
+        <script>
+            Toastify({
+                text: "{{ session('message') }}",
+                duration: 2000,
+                position: 'right',
+                backgroundColor: 'green'
+            }).showToast();
+        </script>
+    @endif 
 </body>
 
 </html>

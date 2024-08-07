@@ -9,50 +9,63 @@
   
   <!-- END TAMBAHANKU -->
   <link rel="stylesheet" href="{{  asset('assets_reservasi/hotel/css/style.css')}}">
-  <link rel="icon" href="{{  asset('images/logo.png')}}">
+  <link rel="icon" href="{{  asset('images/logo_asli2.ico')}}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous"
     referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-  
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
 </head>
 
 <body>
 
-
-  <header>
+<header>
+    <!-- <li> <i class="fa fa-search"></i> </li> -->
+    @if(session()->has('access_token'))
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <div class="content flex_space">
+            <div class="logo">
+                <img src="{{ asset('assets_reservasi/hotel/Images/logodiklat2.jpg')}}" alt="">
+            </div>
+            <div class="navlinks">
+                <ul id="menulist">
+                    <li><a href="#home">home</a> </li>
+                    <li><a href="#about">about</a> </li>
+                    <li><a href="#rooms">Rooms</a> </li>
+                    <li><a href="#hall">Meeting Rooms</a> </li>
+                    <li><a href="#service">service</a> </li>
+                    <li><a href="#contact">contact</a> </li>
+                    <a>
+                        <button type="submit" class="primary-btn">LOGOUT</button>
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </form>
+    @else
     <div class="content flex_space">
-      <div class="logo">
-        <img src="{{ asset('assets_reservasi/hotel/Images/logodiklat2.jpg')}}" alt="">
-      </div>
-      <div class="navlinks">
-        <ul id="menulist">
-          <li><a href="#home">home</a> </li>
-          <li><a href="#about">about</a> </li>
-          <li><a href="#rooms">Rooms</a> </li>
-          <li><a href="#hall">Meeting Rooms</a> </li>
-          <li><a href="#service">service</a> </li>
-          <li><a href="#contact">contact</a> </li>
-          <!-- <li> <i class="fa fa-search"></i> </li> -->
-          @if(session()->has('access_token'))
-          <form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit" class="primary-btn">LOGOUT</button>
-</form>
-
-@else
-    <a href="{{ route('login') }}">
-        <button class="primary-btn">LOGIN</button>
-    </a>
-@endif
-
-        </ul>
-        <span class="fa fa-bars" onclick="menutoggle()"></span>
-      </div>
+        <div class="logo">
+            <img src="{{ asset('assets_reservasi/hotel/Images/logodiklat2.jpg')}}" alt="">
+        </div>
+        <div class="navlinks">
+            <ul id="menulist">
+                <li><a href="#home">home</a> </li>
+                <li><a href="#about">about</a> </li>
+                <li><a href="#rooms">Rooms</a> </li>
+                <li><a href="#hall">Meeting Rooms</a> </li>
+                <li><a href="#service">service</a> </li>
+                <li><a href="#contact">contact</a> </li>
+                <a href="{{ route('login') }}">
+                    <button class="primary-btn">LOGIN</button>
+                </a>
+            </ul>
+        </div>
     </div>
-  </header>
-
+    @endif
+</header>
 
   <script>
     var menulist = document.getElementById('menulist');
@@ -213,14 +226,14 @@
       </div>
       <div class="content mtop">
         <div class="owl-carousel owl-carousel1 owl-theme">
-          @foreach ($roomTypes as $room )
+          @foreach ($rooms as $room )
 
           <div class="items">
             <div class="image">
             <img src="{{ asset( $room['image'] ) }}" alt="">
             </div>
             <div class="text">
-              <h2>{{ $room['room_type'] }}</h2>
+              <h2>{{ str_replace('_', ' ', $room['room_type']) }}</h2>
               <div class="rate flex">
                 <i class="fa fa-wifi"></i>
                 <i class="fa fa-television"></i>
@@ -273,52 +286,45 @@
 
 
 <section class="hall"  id="hall">
-    <div class="container top">
-      <div class="heading">
-        <h1>EXPLORE</h1>
-        <h2>Our Meeting Rooms</h2>
-        <p>Ruang rapat juga tersedia di tempat kami. Ruang rapat dan ruang acara kami nyaman, praktis, dan dilengkapi dengan baik. Berbagai fasilitas dan layanan meliputi proyektor, layar, dan koneksi internet yang kuat dan stabil. Semua ini tersedia di tempat kami yang modern dan bergaya. Anda dapat yakin bahwa kami akan memenuhi setiap kebutuhan rapat Anda.
-        </p>
-      </div>
+  <div class="container top">
+    <div class="heading">
+      <h1>EXPLORE</h1>
+      <h2>Our Meeting Rooms</h2>
+      <p>Ruang rapat juga tersedia di tempat kami. Ruang rapat dan ruang acara kami nyaman, praktis, dan dilengkapi dengan baik. Berbagai fasilitas dan layanan meliputi proyektor, layar, dan koneksi internet yang kuat dan stabil. Semua ini tersedia di tempat kami yang modern dan bergaya. Anda dapat yakin bahwa kami akan memenuhi setiap kebutuhan rapat Anda.
+      </p>
+    </div>
 
       <div class="content mtop">
         <div class="owl-carousel owl-carousel3 owl-theme">
       
-        <div class="items">
-          
-            <div class="image">
-                <img src="{{ asset('images/kamar/hall1.jpg') }}" alt="">
-            </div>
-            <div class="text">
-                <h2>Big Meeting Room </h2>
-              <div class="rate flex">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-              </div>
-              <p> Ruang Pertemuan Dengan Kapasitas 150 Orang
-                    Dengan Fasilitas Rapat :
-                    Area Parkir Luas
-                    Air Mineral
-                    Peralatan Rapat
-                    Layar dan Proyektor LCD
-                    Sistem Suara Standar
-                    Taman Mini
-                    Acara Bebas
-                    Restoran
-                    Musholla
-              </p>
-              <div class="button flex">
-       
-              <a href="{{ route('booking') }}">
-              <button class="primary-btn">Pesan</button></a>
-                <h3>Rp. 280000<span> <br> Per Malam </span> </h3>
-              </div>
-            </div>
-          </div>
-       
+        @foreach ($meetingRooms as $meetingRoom )
+
+<div class="items">
+  <div class="image">
+  <img src="{{ asset( $meetingRoom['image'] ) }}" alt="">
+  </div>
+  <div class="text">
+    <h2>{{ str_replace('_', ' ', $meetingRoom['room_type']) }}</h2>
+    <div class="rate flex">
+      <i class="fa fa-wifi"></i>
+      <i class="fa fa-television"></i>
+      <i class="fa fa-cutlery"></i>
+     
+    </div>
+    <p>{{ $meetingRoom['description'] }}</p>
+    <div class="button flex">
+      
+      <a href="{{ route('room.details', ['id' => $meetingRoom['id']]) }}">
+        <button class="primary-btn">Pesan</button>
+      </a>
+
+      <h3>Rp.{{ (int) $meetingRoom['price'] }}<span> <br> Per Malam </span> </h3>
+
+    </div>
+  </div>
+</div>
+
+@endforeach
          
         
           </div>
@@ -578,7 +584,8 @@
     <div class="container grid">
       <div class="box">
       <div class="logo">
-        <img src="{{ asset('assets_reservasi/hotel/Images/logodiklat.jpg')}}" width: 100%; height: 350px; alt="">
+        
+        <img src="{{ asset('assets_reservasi/hotel/Images/logodiklat2.jpg')}}" width: 100%; height: 350px; alt="">
       </div>
         <p>  GEDUNG DIKLAT PMI PROVINSI JAWA TENGAH Terletak di kawasan perbukitan di Kota Semarang yang memiliki suasana nyaman dan jauh dari kebisingan kota, sehingga cocok digunakan untuk tempat rapat pendidikan, pelatihan, seminar dan lainnya. 
 lingkungan Gedung Diklat yang Hijau dan ramah untuk belajar 
@@ -617,6 +624,29 @@ memiliki beragam fasilitas yang tersedia serta pilihan menu hidangan yang ditawa
 
 
   <script src="https://kit.fontawesome.com/032d11eac3.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+  @if ($errors->any())
+    <script>
+        Toastify({
+            text: {!! json_encode($errors->all()) !!},
+            duration: 2000,
+            position: 'right',
+            backgroundColor: 'red'
+        }).showToast();
+    </script>
+    @endif
+
+    @if (session('message'))
+        <script>
+            Toastify({
+                text: "{{ session('message') }}",
+                duration: 2000,
+                position: 'right',
+                backgroundColor: 'green'
+            }).showToast();
+        </script>
+    @endif 
 </body>
 
 </html>

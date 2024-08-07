@@ -14,8 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         $middleware->alias([
             'HandleExpiredToken' => \App\Http\Middleware\HandleExpiredToken::class,
-            'AuthLoginCheck' => \app\Http\Middleware\AuthLoginCheck::class, 
-            'RefreshToken' => \app\Http\Middleware\RefreshToken::class, 
+            'AuthLoginCheck' => \App\Http\Middleware\AuthLoginCheck::class, 
+            'RefreshToken' => \App\Http\Middleware\RefreshToken::class, 
+            'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+        ]);
+        $middleware->web(append: [
+            \RealRashid\SweetAlert\ToSweetAlert::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

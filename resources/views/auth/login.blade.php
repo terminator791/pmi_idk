@@ -12,12 +12,12 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="assets_auth/css/style.css">
-    <link rel="stylesheet" href="assets_auth/js/toastify-js/src/toastify.css">
+    <!-- <link rel="stylesheet" href="assets_auth/js/toastify-js/src/toastify.css"> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     
     
 </head>
 <body>
-
     <div class="main">
         <!-- Sing in  Form -->
         <section class="sign-in">
@@ -28,7 +28,7 @@
                         <a href="{{ route('register') }}" class="signup-image-link">Create an account</a>
                     </div>
 
-                <form method="POST" action="{{ route('login') }}" novalidate>
+                <form method="POST" action="{{ route('login') }}" >
                 @csrf
                     <div class="signin-form">
                         <h2 class="form-title">Sign In</h2>
@@ -36,11 +36,11 @@
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="email" id="email" placeholder="Your Email"/>
+                                <input type="text" name="email" id="email" placeholder="Your Email" required/>
                             </div>
                             <div class="form-group">
                                 <label for="password"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="password" id="password" placeholder="Password"/>
+                                <input type="password" name="password" id="password" placeholder="Password" required/>
                             </div>
                             <div class="form-group">
                                 <input type="checkbox" name="remember_me" id="remember_me" class="agree-term" />
@@ -73,22 +73,34 @@
     </div>
 
     <!-- JS -->
-    <script src="vendor/jquery/jquery.min.js"></script>
+   
     <script src="{{ asset('assets_auth/js/main.js') }}"></script>
-    <script src="{{ asset('assets_auth/js/toastify-js/src/toastify-js.js') }}"></script>
-    <script src="{{ asset('assets_auth/js/toastify-js/src/toastify.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!-- <script src="{{ asset('assets_auth/js/toastify-js/src/toastify-js.js') }}"></script>
+    <script src="{{ asset('assets_auth/js/toastify-js/src/toastify.js') }}"></script> -->
     
-
     @if ($errors->any())
-<script>
-    Toastify({
-        text: $errors,
-        duration: 6000,
-        position: 'center',
-        backgroundColor: 'red'
-    }).showToast();
-</script>
-@endif
+        <script>
+            Toastify({
+                text: "{{ $errors->first() }}",
+                duration: 2000,
+                position: 'right',
+                backgroundColor: 'red'
+            }).showToast();
+        </script>
+    @endif
+
+    @if (session('message'))
+        <script>
+            Toastify({
+                text: "{{ session('message') }}",
+                duration: 2000,
+                position: 'right',
+                backgroundColor: 'red'
+            }).showToast();
+        </script>
+    @endif
+
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

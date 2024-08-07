@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialController;
@@ -14,30 +15,31 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\PasswordController;
 
 Route::get('/dashboard', function () {
-    
     $response = Session::get('response');
     return view('dashboard', compact('response'));
 })->middleware(['AuthLoginCheck'])->name('dashboard');
 
 Route::middleware('AuthLoginCheck')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/homeRegister', [HomeController::class, 'index'])->name('homeReg');
     Route::get('/booking', [BookingController::class, 'index'])->name('booking');
     Route::get('/room/details/{id}', [BookingController::class, 'show'])->name('room.details');
     Route::post('/booking/room', [BookingController::class, 'store'])->name('bookings.store');
-
 });
+
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
 
-Route::get('/homeRegister', function () {
-    return view('register');
-})->name('homeReg');
+Route::get('/checkout', function () {
+    return view('checkout');
+})->name('checkout');
+
 
 Route::get('/konfirmasi', [PaymentController::class, 'index'])->name('konfirmasi');
-Route::get('/konfirmasi2', [PaymentController::class, 'index2'])->name('konfirmasi2');
+// Route::get('/konfirmasi2', [PaymentController::class, 'index2'])->name('konfirmasi2');
 
 
 Route::get('/auth/redirect', [SocialController::class, 'redirect'])->name('google.redirect');
