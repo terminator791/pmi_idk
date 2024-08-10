@@ -38,7 +38,7 @@ class ProfileController extends Controller
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        $response = Http::withtoken(Session::get('access_token'))->put('http://127.0.0.1:8000/api/updateProfile', [
+        $response = Http::withtoken(Session::get('access_token'))->put('http://127.0.0.1:8000/api/v1/updateProfile', [
             'name' => $request->name,
             'phone' => $request->phone,
         ]);
@@ -48,17 +48,7 @@ class ProfileController extends Controller
         }
 
         session::forget('response');
-
-        try {
-            $response = Http::withToken(Session::get('access_token'))->post('http://127.0.0.1:8000/api/me');
-
-            // Store the response in session
-            Session::put('response', $response->json());
-
-        } catch (\Throwable $th) {
-                return redirect()->route('login')->withErrors(['error' => 'Silahkan Login Terlebih dahulu']);
-        }
-
+        session::put('response', $response['data']);
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 

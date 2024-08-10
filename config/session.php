@@ -87,6 +87,7 @@ return [
     */
 
     'table' => env('SESSION_TABLE', 'sessions'),
+    'user_id_column' => 'email',
 
     /*
     |--------------------------------------------------------------------------

@@ -31,6 +31,7 @@ class RegisteredUserController extends Controller
     $response = Http::post('http://127.0.0.1:8000/api/v1/register', [
         'email' => $request->email,
         'name' => $request->name,
+        'phone' => $request->phone,
         'password' => $request->password, 
         'password_confirmation' => $request->password_confirmation, 
     ]);
@@ -38,14 +39,11 @@ class RegisteredUserController extends Controller
     // Return response from API to client
     if ($response->successful()) {
         // Store access token in session
-        $accessToken = $response->json()['access_token'];
-        Session::put('access_token', $accessToken);
+        Session::put('access_token', $response['access_token']);
 
-        $response = Http::withToken($accessToken)->post('http://127.0.0.1:8000/api/v1/me');
-        // Store the response in session
-        Session::put('response', $response->json());
+        Session::put('response', $response['data']);
 
-        return redirect('/homeRegister')->with(['message' => 'Selamat Datang']);
+        return redirect('/homeRegister')->with(['message' => 'Selamat Datang ' . $request->name . ' Kami telah mengirimkan verifikasi email ke email anda']);
     } else {
         return back()->withErrors('Gagal membuat akun');
     }

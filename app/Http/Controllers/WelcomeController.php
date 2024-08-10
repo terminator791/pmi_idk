@@ -10,6 +10,7 @@ class WelcomeController extends Controller
     //
     public function index(Request $request)
 {
+    
     // dd($request->cookie('token_id'));
     $responseData = cache()->rememberForever('roomData', function () {
         $response = Http::get('http://127.0.0.1:8000/api/v1/room_type/getAll');
@@ -27,5 +28,10 @@ class WelcomeController extends Controller
     return view('welcome', ['rooms' => $rooms, 'meetingRooms' => $meetingRooms]);
 }
 
+public function index2(Request $request)
+{
+
+    return view('welcome2');
+}
 
 }
