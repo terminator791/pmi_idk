@@ -28,7 +28,7 @@ class WelcomeController extends Controller
     return view('welcome', ['rooms' => $rooms, 'meetingRooms' => $meetingRooms]);
 }
 
-public function index2(Request $request)
+public function welcome(Request $request)
 {
 
     return view('welcome2');

@@ -31,7 +31,7 @@ Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
-
+Route::get('/welcome', [WelcomeController::class, 'welcome'])->name('welcome');
 
 Route::get('/checkout', function () {
     return view('checkout');

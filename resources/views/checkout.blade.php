@@ -523,7 +523,7 @@
                         document.getElementById('orderID').innerText = booking.order_id;
                         document.getElementById('fromName').innerText = `Nama : ${booking.user.name}`;
                         document.getElementById('fromEmail').innerText = `Email: ${booking.user.email}`;
-                        document.getElementById('fromPhone').innerText = `Phone: `;
+                        document.getElementById('fromPhone').innerText = `Phone: ${booking.user.phone ?? ''}`;
                         document.getElementById('toName').innerText = "PUSDIKLAT PMI";
                         document.getElementById('toAddress').innerText = "Semarang, Jawa Tengah, 10394";
                         document.getElementById('toEmail').innerText = "Email: admin@admin.com";
@@ -532,12 +532,12 @@
                         document.getElementById('transactionDate').innerText = new Date(booking.transaction_date).toLocaleDateString();
 
                         // Set payment deadline (dummy example)
-                        document.getElementById('paymentDeadline').innerText = `Selesaikan Pembayaran Sebelum ${new Date(new Date(booking.transaction_date).getTime() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()} 12:00`;
+                        document.getElementById('paymentDeadline').innerText = `Selesaikan Pembayaran Sebelum ${new Date(new Date(booking.transaction_date).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString()} ${new Date(new Date(booking.transaction_date).getTime() + 3 * 60 * 60 * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}`;
 
                         // Update order items
                         const orderItems = document.getElementById('orderItems');
                         orderItems.innerHTML = ''; // Clear existing items
-                        const items = booking.items || [
+                        const items = booking.booking || [
                             {
                                 id: 1,
                                 name: 'Kamar Standard',
@@ -546,17 +546,20 @@
                                 total: booking.total_price
                             }
                         ];
-                        items.forEach((item, index) => {
+                        const item = items[0];
+                        if (item) {
+                            const roomType = item.room.room_type.room_type.replace(/_/g, ' '); // Mengganti underscore dengan spasi
                             const row = document.createElement('tr');
                             row.innerHTML = `
-                                <td class="center">${index + 1}</td>
-                                <td class="left">${item.name}</td>
-                                <td class="center">${item.quantity}</td>
-                                <td class="right">Rp${item.unit_cost.toLocaleString('id-ID')}</td>
-                                <td class="right">Rp${item.total.toLocaleString('id-ID')}</td>
+                                <td class="center">1</td>
+                                <td class="left">${roomType}</td>
+                                <td class="center">${booking.amount}</td>
+                                <td class="right">Rp${item.room.room_type.price}</td>
+                                <td class="right">Rp${booking.total_price}</td>
                             `;
                             orderItems.appendChild(row);
-                        });
+                        }
+
 
                         // Update summary
                         document.getElementById('subtotal').innerText = `Rp${(booking.total_price * 0.95).toLocaleString('id-ID')}`;
