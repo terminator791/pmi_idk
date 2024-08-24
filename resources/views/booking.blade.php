@@ -126,6 +126,7 @@
                         </div>
                         <div class="service-tab-desc text-left mt-60">
                             <div class="tab-content">
+                            @if (isset($room['room_data']['room_type']))
                                 <div role="tabpanel" class="tab-pane active" id="booking">
                                     <div class="booking-info-deatils">
                                         <div class="single-room-details fix">
@@ -133,10 +134,10 @@
                                                 <img src="{{ asset($room['room_images'][0]) }}" alt="Twin Room"> 
                                             </div>
                                             <div class="single-room-details pl-50">
-                                                <h3 class="s_room_title">{{ $room['room_data']['room_type'] }}</h3>
+                                                <h3 class="s_room_title">{{ $room['room_data']['room_type'] ?? $room['room_data']['name']}}</h3>
                                                 <div class="room_price"><br>
                                                     <h4>Harga</h4><br>
-                                                    <h5>Rp. {{ (int) $room['room_data']['price'] }}<span>/ malam</span></h5>
+                                                    <h5>Rp. {{ (int) ($room['room_data']['price'] ?? $room['room_data']['price_per_person']) }}<span>/ malam</span></h5>
                                                     <p>{{ $room['room_data']['description'] }}</p>
                                                 </div>
                                             </div>
@@ -168,13 +169,59 @@
                                                         </div>
                                                         <div class="select-option">
                                                             <input type="hidden" name="room_type_id" value="{{ $room['room_data']['id'] }}">
-                                                            <input type="text" readonly value="{{ $room['room_data']['room_type'] }}">
+                                                            <input type="text" readonly value="{{ $room['room_data']['room_type'] ?? $room['room_data']['name'] }}">
                                                         </div>
                                                     </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            @else
+                                <div role="tabpanel" class="tab-pane active" id="booking">
+                                        <div class="booking-info-deatils">
+                                            <div class="single-room-details fix">
+                                                <div class="room-img">
+                                                    <img src="{{ asset($room['room_images']) }}" alt="Twin Room"> 
+                                                </div>
+                                                <div class="single-room-details pl-50">
+                                                    <h3 class="s_room_title">{{ $room['room_data']['room_type'] ?? $room['room_data']['name']}}</h3>
+                                                    <div class="room_price"><br>
+                                                        <h4>Harga</h4><br>
+                                                        <h5>Rp. {{ (int) ($room['room_data']['price'] ?? $room['room_data']['price_per_person']) }}<span>/ orang</span></h5>
+                                                        <p>{{ $room['room_data']['description'] }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="single-room-booking-form mt-60">
+                                                <div class="booking_form_inner">
+                                                    <form id="booking-package-form" method="post">
+                                                        @csrf
+                                                        <div class="single-form-part">
+                                                            <div class="date-to mb-20">
+                                                                <input id="txtCheckin" name="start_date" placeholder="Arrive date" readonly>
+                                                                <i class="mdi mdi-calendar-text"></i>
+                                                            </div>
+                                                            <div class="select-option">
+                                                                <input type="number" name="person_count" id="person_count" placeholder="Jumlah Tamu">
+                                                            </div>
+                                                        </div>
+                                                        <div class="single-form-part">
+                                                            <div class="date-to mb-20">
+                                                                <input id="txtCheckout" name="end_date" placeholder="Check Out" readonly>
+                                                                <i class="mdi mdi-calendar-text"></i>
+                                                            </div>
+                                                            <div class="select-option">
+                                                                <input type="hidden" name="room_type_id" value="{{ $room['room_data']['id'] }}">
+                                                                <input type="text" readonly value="{{ $room['room_data']['room_type'] ?? $room['room_data']['name'] }}">
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <!-- //END OF FORM  -->
                                 <div role="tabpanel" class="tab-pane" id="personal">
                                     <div class="personal-info-details">
                                         <div class="booking-info-inner">                                           
@@ -227,7 +274,7 @@
                 side: "client"
             };
 
-            axios.post('http://127.0.0.1:8000/api/v1/booking/generateToken', formData)
+            axios.post('http://dashboardpmi-booking_system.test/api/v1/booking/generateToken', formData)
                 .then(function(response) {
                     // const responseMessage = response
                     $('#loading-overlay').hide(); // Sembunyikan loading saat transaksi berhasil
@@ -241,6 +288,44 @@
                 }, 1500); 
                 })
                 .catch(function(error) {
+                    $('#loading-overlay').hide(); // Sembunyikan loading saat transaksi gagal
+                    const errorMessage = error.response?.data?.error || "Booking gagal disimpan";
+                    Swal.fire({
+                                icon: 'error',
+                                title: 'Transaksi Gagal',
+                                text: errorMessage,
+                            });
+                });
+        });
+
+        $('#booking-package-form').on('submit', function(event) {
+                event.preventDefault(); // Mencegah default pengiriman form
+                $('#loading-overlay').show(); // Untuk Loading
+
+            var formData = {
+                user_email: $('input[name="user_email"]').val(),
+                package_id: $('input[name="room_type_id"]').val(),
+                start_date: $('input[name="start_date"]').val(),
+                end_date: $('input[name="end_date"]').val(),
+                person_count: $('input[name="person_count"]').val(),
+                side: "client"
+            };
+
+            axios.post('http://dashboardpmi-booking_system.test/api/v1/booking/packageToken', formData)
+                .then(function(response) {
+                    // const responseMessage = response
+                    $('#loading-overlay').hide(); // Sembunyikan loading saat transaksi berhasil
+                            Swal.fire({             // sweet alert ketika berhasil
+                                icon: 'success',
+                                title: 'Transaksi Berhasil',
+                                text: "Booking berhasil disimpan",
+                            });
+                            setTimeout(function() {
+                    window.location.href = "{{ url('/konfirmasi') }}";
+                }, 1500); 
+                })
+                .catch(function(error) {
+                    console.log(error);
                     $('#loading-overlay').hide(); // Sembunyikan loading saat transaksi gagal
                     const errorMessage = error.response?.data?.error || "Booking gagal disimpan";
                     Swal.fire({

@@ -2,36 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
-
 
 class SocialController extends Controller
 {
     //
-public function redirect() {
- return Socialite::driver('google')
- ->with(['access_type' => 'offline'])
- ->redirect();
-}
-
+    public function redirect()
+    {
+        return Socialite::driver('google')
+            ->with(['access_type' => 'offline'])
+            ->redirect();
+    }
 
     public function googleCallback()
     {
         $googleUser = Socialite::driver('google')->user();
         $password = Str::random(24);
 
-       // Send POST request to API endpoint
-        $response = Http::post('http://127.0.0.1:8000/api/v1/registerSocial', [
+        // Send POST request to API endpoint
+        $response = Http::post('http://dashboardpmi-booking_system.test/api/v1/registerSocial', [
             'email' => $googleUser->email,
             'name' => $googleUser->name,
-            'phone' => $googleUser->phone ?? "",
-            'password' => $password, 
+            'phone' => $googleUser->phone ?? '',
+            'password' => $password,
         ]);
 
         // dd($response);
@@ -46,12 +42,13 @@ public function redirect() {
 
             return redirect('/homeRegister')->with(['message' => 'Selamat Datang '.$googleUser->name]);
         } else {
-                return back()->withErrors('Gagal membuat akun');
+            return back()->withErrors('Gagal membuat akun');
         }
-        
+
     }
 
-    public function twitterRedirect(){
+    public function twitterRedirect()
+    {
         return Socialite::driver('twitter')->redirect();
     }
 
@@ -63,29 +60,26 @@ public function redirect() {
         // dd($twitterUser);
 
         // Send POST request to API endpoint
-         $response = Http::post('http://127.0.0.1:8000/api/v1/registerSocial', [
-             'email' => $twitterUser->email,
-             'name' => $twitterUser->name,
-             'phone' => $twitterUser->phone ?? "",
-             'password' => $password, 
-         ]);
- 
-         // dd($response);
- 
-         // Return response from API to client
-         if ($response->successful()) {
-             // Store access token in session
-             $accessToken = $response->json()['access_token'];
-             Session::put('access_token', $accessToken);
- 
-             Session::put('response', $response['data']);
- 
-             return redirect('/homeRegister')->with(['message' => 'Selamat Datang '.$twitterUser->name]);
-         } else {
-                 return back()->withErrors('Gagal membuat akun');
-         }
+        $response = Http::post('http://dashboardpmi-booking_system.test/api/v1/registerSocial', [
+            'email' => $twitterUser->email,
+            'name' => $twitterUser->name,
+            'phone' => $twitterUser->phone ?? '',
+            'password' => $password,
+        ]);
+
+        // dd($response);
+
+        // Return response from API to client
+        if ($response->successful()) {
+            // Store access token in session
+            $accessToken = $response->json()['access_token'];
+            Session::put('access_token', $accessToken);
+
+            Session::put('response', $response['data']);
+
+            return redirect('/homeRegister')->with(['message' => 'Selamat Datang '.$twitterUser->name]);
+        } else {
+            return back()->withErrors('Gagal membuat akun');
+        }
     }
-
-
-    
 }

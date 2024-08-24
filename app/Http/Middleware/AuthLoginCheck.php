@@ -4,9 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthLoginCheck
 {
@@ -19,15 +19,15 @@ class AuthLoginCheck
     {
         $token = Session::get('access_token');
 
-        if (!$token) {
+        if (! $token) {
             return redirect()->route('login')->withErrors(['error' => 'Silahkan Login Terlebih dahulu']);
         }
 
         $response = Session::get('response');
 
-        if (!$response) {
+        if (! $response) {
             try {
-                $apiResponse = Http::withToken($token)->get('http://127.0.0.1:8000/api/v1/me');
+                $apiResponse = Http::withToken($token)->get('http://dashboardpmi-booking_system.test/api/v1/me');
 
                 if ($apiResponse->successful()) {
                     // Store the response in session

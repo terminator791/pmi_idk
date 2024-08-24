@@ -20,6 +20,7 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $response = Session::get('response');
+
         return view('profile.edit', [
             'user' => $response,
         ]);
@@ -38,7 +39,7 @@ class ProfileController extends Controller
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        $response = Http::withtoken(Session::get('access_token'))->put('http://127.0.0.1:8000/api/v1/updateProfile', [
+        $response = Http::withtoken(Session::get('access_token'))->put('http://dashboardpmi-booking_system.test/api/v1/updateProfile', [
             'name' => $request->name,
             'phone' => $request->phone,
         ]);
@@ -49,6 +50,7 @@ class ProfileController extends Controller
 
         session::forget('response');
         session::put('response', $response['data']);
+
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 

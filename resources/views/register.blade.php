@@ -263,6 +263,52 @@
             </div>
         </div>
         <!-- Our Room end -->
+
+        <!-- Our Room start -->
+        <div class="our-room text-center ptb-80 white-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title mb-75">
+                            <h2>Paket <span>Service</span></h2>
+                            <p>Kami juga menyediakan beberapa paket yang bisa disewa mulai dari 100k/orang</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="our-room-show">
+                    <div class="row">
+                        <div class="carousel-list">
+                            @foreach ($packageRooms as $packageRoom )
+                            <div class="col-md-4">
+                                <div class="single-room">
+                                    <div class="room-img">
+                                        <a ><img src="{{ asset( $packageRoom['image'] ) }}" alt=""></a>
+                                    </div>
+                                    <div class="room-desc">
+                                        <div class="room-name">
+                                            <h3>{{ str_replace('_', ' ', $packageRoom['name']) }}</></h3>
+                                        </div>
+                                        <div class="room-rent">
+                                            <h6>Rp.{{ (int) $packageRoom['price_per_person'] }} / <label>orang</label></h6>
+                                        </div>
+                                        <div class="room-book">
+                                            <a href="{{ route('package.details', ['id' => $packageRoom['id']]) }}">
+                                                Pesan
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @endforeach
+                            <!-- Add more room entries here as needed -->
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer start -->
         <div class="footer ptb-100">
             <div class="footer-bg-opacity"></div>

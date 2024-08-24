@@ -17,13 +17,13 @@ class RefreshToken
     {
 
         try {
-            
+
             $response = $next($request);
 
         } catch (\Illuminate\Http\Client\RequestException $e) {
             $response = $e->response;
         }
-        
+
         return $next($request);
     }
 }

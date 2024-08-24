@@ -420,7 +420,7 @@
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{config('midtrans.client_key')}}"></script>
     <script>
         function payOrder(orderId) {
-            fetch(`http://127.0.0.1:8000/api/v1/user_transaction/getSnapToken?id=${orderId}`)
+            fetch(`http://dashboardpmi-booking_system.test/api/v1/user_transaction/getSnapToken?id=${orderId}`)
             .then(response => response.json())
             .then(data => {
                 if (data && data.snap_token) {
@@ -476,7 +476,7 @@
             refreshButton.classList.add('btn-loading');
             refreshButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
 
-            fetch(`http://127.0.0.1:8000/api/v1/user_transaction/RefreshTransactionStatus?id=${orderId}`)
+            fetch(`http://dashboardpmi-booking_system.test/api/v1/user_transaction/RefreshTransactionStatus?id=${orderId}`)
                 .then(response => response.json())
                 .then(data => {
                     const booking = data.booking;  // Akses response/data booking karena response berisi Booking
@@ -513,7 +513,7 @@
 
 
         function showOrderDetails(orderId) {
-            fetch(`http://127.0.0.1:8000/api/v1/user_transaction/getUserTransactionID?id=${orderId}`)
+            fetch(`http://dashboardpmi-booking_system.test/api/v1/user_transaction/getUserTransactionID?id=${orderId}`)
                 .then(response => response.json())
                 .then(data => {
                     const booking = data.booking;  // Access the booking object from the response
@@ -537,7 +537,7 @@
                         // Update order items
                         const orderItems = document.getElementById('orderItems');
                         orderItems.innerHTML = ''; // Clear existing items
-                        const items = booking.booking || [
+                        const items = booking.items || [
                             {
                                 id: 1,
                                 name: 'Kamar Standard',
@@ -546,8 +546,9 @@
                                 total: booking.total_price
                             }
                         ];
-                        const item = items[0];
+                        const item = booking.booking[0];
                         if (item) {
+                            console.log('Item:', item);
                             const roomType = item.room.room_type.room_type.replace(/_/g, ' '); // Mengganti underscore dengan spasi
                             const row = document.createElement('tr');
                             row.innerHTML = `
